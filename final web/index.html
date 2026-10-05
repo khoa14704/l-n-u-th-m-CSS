@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Thư Viện</title>
+    <!-- Liên kết tới file CSS riêng biệt -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- TÍNH NĂNG NÂNG CAO 3: HỖ TRỢ TIẾP CẬN ACCESSIBILITY (ARIA & SKIP LINK) -->
+    <a href="#main-content" class="skip-link">Chuyển đến nội dung chính</a>
+
+    <header role="banner">
+        <h1>Quản Lý Thư Viện</h1>
+        <nav role="navigation" aria-label="Menu chính">
+            <ul>
+                <li><a href="#" onclick="showPage('home-page')">Trang Chủ</a></li>
+                <li><a href="#" onclick="showPage('catalog-page')">Danh Sách Sách</a></li>
+                <li><a href="#" onclick="showPage('detail-page')">Chi Tiết Sách</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" role="main">
+
+        <!-- ====================================================================
+             TRANG 1: TRANG CHỦ (LANDING PAGE)
+             ==================================================================== -->
+        <section id="home-page" class="page-section active">
+            <h2>Chào Mừng Đến Với Thư Viện Của Chúng Tôi</h2>
+            <p>Khám phá bộ sưu tập sách phong phú và nâng cao kiến thức mỗi ngày.</p>
+
+            <!-- TÍNH NĂNG NÂNG CAO 4: CAROUSEL CHỌN LỌC (TẮT AUTOPLAY) -->
+            <div class="carousel-container" aria-label="Sách nổi bật">
+                <div class="carousel-slide active">
+                    <h3>Sách Nổi Bật 1: Java Programming</h3>
+                    <p>Được thiết kế đặc biệt nhằm giúp người mới bắt đầu xây dựng nền tảng tư duy lập trình vững chắc.</p>
+                </div>
+                <div class="carousel-slide">
+                    <h3>Sách Nổi Bật 2: Core Java Volume I--Fundamentals (11th Edition)</h3>
+                    <p>Cung cấp nền tảng Java cốt lõi (cập nhật đến Java 11) dành cho lập trình viên.</p>
+                </div>
+                <div class="carousel-slide">
+                    <h3>Sách Nổi Bật 3: Core Java, Volume II Advanced Features (ROUGH CUTS)</h3>
+                    <p>Tập trung hỗ trợ các kỹ năng lập trình Java nâng cao để xây dựng ứng dụng thực tế, quy mô lớn.</p>
+                </div>
+                
+                <div class="carousel-controls">
+                    <button type="button" class="btn" onclick="moveSlide(-1)" aria-label="Slide trước">Tới Sách Trước</button>
+                    <span id="slide-number">Slide 1 / 3</span>
+                    <button type="button" class="btn" onclick="moveSlide(1)" aria-label="Slide kế tiếp">Sách Tiếp Theo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====================================================================
+             TRANG 2: TRANG DANH SÁCH SÁCH (CATALOG PAGE)
+             ==================================================================== -->
+        <section id="catalog-page" class="page-section">
+            <h2>Danh Sách Sách</h2>
+            
+            <!-- TÍNH NĂNG NÂNG CAO 1: CUSTOM JAVASCRIPT - TÌM KIẾM ĐỘNG REAL-TIME -->
+            <label for="book-search">Tìm kiếm sách:</label>
+            <input type="text" id="book-search" class="search-box" placeholder="Nhập tên sách hoặc tác giả..." onkeyup="filterBooks()" aria-label="Lọc danh sách sách">
+
+            <div class="book-grid" id="book-list">
+                <article class="book-card">
+                    <img src="image/book1.jpg" alt="Bìa sách Java Programming.">
+                    <h3>Java Programming</h3>
+                    <p>Tác giả: Joyce Farrell</p>
+                    <p>Trạng thái: Có sẵn</p>
+                    <button class="btn" onclick="viewBookDetail('Java Programming', 'Joyce Farrell', 'Nhập môn lập trình Java phù hợp cho người mới bắt đầu.')">Xem Chi Tiết</button>
+                </article>
+
+                <article class="book-card">
+                    <img src="image/book2.jpg" alt="Bìa sách Core Java Volume I--Fundamentals (11th Edition)">
+                    <h3>Core Java Volume I--Fundamentals (11th Edition)</h3>
+                    <p>Tác giả: Cay S. Horstmann</p>
+                    <p>Trạng thái: Có sẵn</p>
+                    <button class="btn" onclick="viewBookDetail('Core Java Volume I--Fundamentals (11th Edition)', 'Cay S. Horstmann', 'Xây dựng nền tảng vững chắc về ngôn ngữ Java.')">Xem Chi Tiết</button>
+                </article>
+
+                <article class="book-card">
+                    <img src="image/book3.jpg" alt="Bìa sách Core Java, Volume II Advanced Features (ROUGH CUTS)">
+                    <h3>Core Java, Volume II Advanced Features (ROUGH CUTS)</h3>
+                    <p>Tác giả: Cay S. Horstmann</p>
+                    <p>Trạng thái: Đã mượn</p>
+                    <button class="btn" onclick="viewBookDetail('Core Java, Volume II Advanced Features (ROUGH CUTS)', 'Cay S. Horstmann', 'Nâng cao kỹ năng lập trình Java.')">Xem Chi Tiết</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- ====================================================================
+             TRANG 3: TRANG CHI TIẾT SÁCH (BOOK DETAIL PAGE)
+             ==================================================================== -->
+        <section id="detail-page" class="page-section">
+            <h2>Chi Tiết Sách</h2>
+            <div class="detail-container">
+                <h3 id="detail-title">Chưa chọn sách</h3>
+                <p><strong>Tác giả:</strong> <span id="detail-author">N/A</span></p>
+                <p><strong>Mô tả:</strong> <span id="detail-desc">Vui lòng chọn một cuốn sách từ trang Danh sách.</span></p>
+                <button class="btn" onclick="alert('Đã gửi yêu cầu mượn sách thành công!')">Đăng Ký Mượn Sách</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TÍNH NĂNG NÂNG CAO 2: STICKY FOOTER CỐ ĐỊNH ĐÁY MÀN HÌNH -->
+    <footer role="contentinfo">
+        <p>&copy; 2026 Hệ Thống Thư Viện. Bản quyền thuộc về Khoa.</p>
+    </footer>
+
+    <!-- Liên kết tới file JavaScript riêng biệt đặt ở cuối body -->
+    <script src="js/script.js"></script>
+</body>
+</html>
